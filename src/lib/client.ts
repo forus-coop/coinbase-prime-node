@@ -41,7 +41,7 @@ export class Client {
   // Generate object of params and headers for request
   requestParams(method: string, path: string, body?: any): any {
     const requestHeaders = this.headers(method, path, body)
-    let params = { headers: requestHeaders }
+    const params = { headers: requestHeaders }
     if (!_.isUndefined(body)) {
       _.merge(params, { body: body.to_json() })
     }
@@ -50,11 +50,11 @@ export class Client {
 
   // Get request
   async get(path: string, params: object = {}) {
+    const headers = this.requestParams('GET', path);
     const queryParams: (string | object) = util.buildQueryParams(params)
     if (!_.isEmpty(queryParams)) {
       path += queryParams;
     }
-    const headers = this.requestParams('GET', path);
 
     let result: any;
     try {
