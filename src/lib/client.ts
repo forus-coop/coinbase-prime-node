@@ -90,7 +90,3 @@ export class Client {
     return `/v1/entities/${ENTITY_ID}`;
   }
 }
-
-
-
-
