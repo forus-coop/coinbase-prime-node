@@ -12,7 +12,7 @@ const ENTITY_ID = process.env.ENTITY_ID;
 
 export class Client {
   // Generate signature
-  signature(method: string, timestamp: number, requestPath: string = '', body?: any) {
+  signature(method: string, timestamp: number, requestPath = '', body?: any) {
     if (!_.isUndefined(body)){
       body = body.to_json();
     } else {
@@ -40,7 +40,7 @@ export class Client {
 
   // Generate object of params and headers for request
   requestParams(method: string, path: string, body?: any): any {
-    let requestHeaders = this.headers(method, path, body)
+    const requestHeaders = this.headers(method, path, body)
     let params = { headers: requestHeaders }
     if (!_.isUndefined(body)) {
       _.merge(params, { body: body.to_json() })
@@ -50,7 +50,7 @@ export class Client {
 
   // Get request
   async get(path: string, params: object = {}) {
-    let queryParams: (string | object) = util.buildQueryParams(params)
+    const queryParams: (string | object) = util.buildQueryParams(params)
     if (!_.isEmpty(queryParams)) {
       path += queryParams;
     }

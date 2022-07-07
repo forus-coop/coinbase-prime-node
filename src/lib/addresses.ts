@@ -1,7 +1,5 @@
 // Base class to connect to coinbase
-import * as _ from 'lodash';
-import util = require('./util');
-import { formatResponse, ResponseFormat, buildQueryParams } from "./util";
+import { formatResponse, ResponseFormat } from "./util";
 import { Client } from './client';
 
 export class Addresses extends Client {
@@ -18,8 +16,8 @@ export class Addresses extends Client {
   // ==== Returns
   // * [Hash] a hash with list of addresses
   async list<ResponseFormat>(params: object = {}) {
-    let operationalUrl: string = `${this.portfolioUri()}/address_book`
-    let res = await this.get(operationalUrl, params);
+    const operationalUrl = `${this.portfolioUri()}/address_book`
+    const res = await this.get(operationalUrl, params);
     return formatResponse(res);
   }
 
@@ -34,8 +32,8 @@ export class Addresses extends Client {
   // ==== Returns
   // * [Hash] a hash with list of addresses along with pagination
   async create<ResponseFormat>(params: object = {}) {
-    let operationalUrl: string = `${this.portfolioUri()}/address_book`
-    let res = await this.post(operationalUrl, params);
+    const operationalUrl = `${this.portfolioUri()}/address_book`
+    const res = await this.post(operationalUrl, params);
     return formatResponse(res);
   }
 }

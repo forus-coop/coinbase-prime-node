@@ -13,7 +13,7 @@ export function formatResponse<ResponseFormat>(response: any) {
     result: response.data,
     headers: response.headers
   }
-};
+}
 
 // Build query params
 export function buildQueryParams(params?: any) {
