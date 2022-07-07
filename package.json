@@ -1,0 +1,28 @@
+{
+  "name": "coinbase-prime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.0.1",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/crypto-js": "^4.1.1",
+    "@types/lodash": "^4.14.182",
+    "axios": "^0.27.2",
+    "crypto-js": "^4.1.1",
+    "lodash": "^4.17.21"
+  }
+}
