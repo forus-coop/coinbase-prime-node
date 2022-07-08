@@ -1,31 +1,36 @@
 // Base class to connect to coinbase
 import * as _ from 'lodash';
-import util = require('./util');
-const CryptoJS = require('crypto-js');
+import { buildQueryParams,  } from './util';
+import * as CryptoJS from 'crypto-js';
 import axios from 'axios';
-const API_SECRET = process.env.API_SECRET;
-const API_KEY = process.env.API_KEY;
-const PASSPHRASE = process.env.PASSPHRASE;
-const BASE_URL = process.env.BASE_URL;
-const PORTFOLIO_ID = process.env.PORTFOLIO_ID;
-const ENTITY_ID = process.env.ENTITY_ID;
+enum requestMethod {
+  GET = 'GET',
+  POST = 'POST',
+  DELETE = 'DELETE',
+  UPDATE = 'UPDATE'
+}
 
+const API_SECRET = process.env.API_SECRET || '';
+const API_KEY = process.env.API_KEY || '';
+const PASSPHRASE = process.env.PASSPHRASE || '';
+const BASE_URL = process.env.BASE_URL || '';
+const PORTFOLIO_ID = process.env.PORTFOLIO_ID || '';
+const ENTITY_ID = process.env.ENTITY_ID || '';
 export class Client {
   // Generate signature
-  signature(method: string, timestamp: number, requestPath = '', body?: any) {
+  signature(method: requestMethod, timestamp: number, requestPath = '', body?: any) {
     if (!_.isUndefined(body)){
       body = body.to_json();
     } else {
       body = '';
     }
-  
     const message = `${timestamp}${method}${requestPath}${body}`;
     const hash = CryptoJS.HmacSHA256(message, API_SECRET);
     return hash.toString(CryptoJS.enc.Base64);
   }
 
   // Required headers for every request
-  headers(method: string, path: string, body: any){
+  headers(method: requestMethod, path: string, body: any){
     const timestamp = Math.floor(Date.now() / 1000);
 
     const sign = this.signature(method, timestamp, path, body)
@@ -39,7 +44,7 @@ export class Client {
   }
 
   // Generate object of params and headers for request
-  requestParams(method: string, path: string, body?: any): any {
+  requestParams(method: requestMethod, path: string, body?: any): any {
     const requestHeaders = this.headers(method, path, body)
     let params = { headers: requestHeaders }
     if (!_.isUndefined(body)) {
@@ -50,11 +55,12 @@ export class Client {
 
   // Get request
   async get(path: string, params: object = {}) {
-    const queryParams: (string | object) = util.buildQueryParams(params)
+    const headers = this.requestParams(requestMethod.GET, path);
+
+    const queryParams: (string | object) = buildQueryParams(params)
     if (!_.isEmpty(queryParams)) {
       path += queryParams;
     }
-    const headers = this.requestParams('GET', path);
 
     let result: any;
     try {
@@ -68,7 +74,7 @@ export class Client {
 
   // Post request
   async post(path: string, body?: any) {
-    const params = this.requestParams('POST', path, body);
+    const params = this.requestParams(requestMethod.POST, path, body);
 
     let result: any;
     try {

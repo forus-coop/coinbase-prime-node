@@ -2,10 +2,25 @@
 import { formatResponse, ResponseFormat } from "./util";
 import { Client } from './client';
 
+type listParams = {
+  currency_symbol?: string,
+  search?: string,
+  cursor?: string,
+  limit?: number,
+  sort_direction?: string
+}
+
+type createParams = {
+  address: string,
+  currency_symbol: string,
+  name: string,
+  account_identifier?: string
+}
+
 export class Addresses extends Client {
 
   // Gets a list of address book addresses.
-  // ==== options
+  // ==== params
   // 
   // * +currency_symbol+ - [String]  A Currency symbol of address (optional)
   // * +search+          - [String] Address name (optional)
@@ -15,14 +30,14 @@ export class Addresses extends Client {
   // 
   // ==== Returns
   // * [Hash] a hash with list of addresses
-  async list<ResponseFormat>(params: object = {}) {
+  async list<ResponseFormat>(params: listParams = {}) {
     const operationalUrl = `${this.portfolioUri()}/address_book`
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
   }
 
   // Creates an entry for a portfolio's trusted addresses
-  // ==== options
+  // ==== params
   //
   // * +address+            - [String] A Crypto address to add. (required)
   // * +currency_symbol+    - [String] A Currency symbol of address (required)
@@ -31,7 +46,7 @@ export class Addresses extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with list of addresses along with pagination
-  async create<ResponseFormat>(params: object = {}) {
+  async create<ResponseFormat>(params: createParams) {
     const operationalUrl = `${this.portfolioUri()}/address_book`
     const res = await this.post(operationalUrl, params);
     return formatResponse(res);
