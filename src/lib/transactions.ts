@@ -2,6 +2,51 @@
 import { Client } from "./client";
 import { formatResponse, ResponseFormat } from "./util";
 
+type transactionsListParams = {
+  portfolio_id?: string,
+  symbols?: string,
+  types?: string[],
+  start_time?: string,
+  end_time?: string,
+  cursor?: string,
+  limit?: number,
+  sort_direction?: string
+}
+
+type listWalletParams = {
+  portfolio_id?: string,
+  Wallet_id?: string,
+  types?: string[],
+  start_time?: string,
+  end_time?: string,
+  cursor?: string,
+  limit?: number,
+  sort_direction?: string
+}
+
+type createWalletTransferParams = {
+  portfolio_id: string,
+  wallet_id: string,
+  amount: string,
+  destination: string,
+  idempotency_key: string,
+  currency_symbol: string
+}
+
+type createWalletWithdrawalParams = {
+  portfolio_id: string,
+  walletId: string,
+  amount: string,
+  destination_type?: string,
+  idempotency_key: string,
+  currency_symbol: string,
+  Payment_method?: {payment_method_id: string},
+  blockchain_address?: {
+    address: string,
+    account_identifier: string
+  },
+}
+
 export class Transactions extends Client {
   // List transactions for a given portfolio (only transactions that affect balances are accessible).
   // ==== options
@@ -46,7 +91,7 @@ export class Transactions extends Client {
   // ==== Returns
   // 
   // * [Hash] list of transactions
-  async list<ResponseFormat>(params: object = {}) {
+  async list<ResponseFormat>(params: transactionsListParams = {}) {
     const operationalUrl =  `${this.portfolioUri()}/transactions`;
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
@@ -58,7 +103,7 @@ export class Transactions extends Client {
   // * +transactionId+ - [String] transactionId (The transaction ID) (Required)
   // ==== Returns
   // * [Hash] list of transactions
-  async transaction<ResponseFormat>(transactionId: string, params: object = {}) {
+  async transaction<ResponseFormat>(transactionId: string, params: {portfolio_id?: string} = {}) {
     const operationalUrl =  `${this.portfolioUri()}/transactions/${transactionId}`;
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
@@ -71,7 +116,7 @@ export class Transactions extends Client {
   // ==== options
   //
   // * +portfolio_id+ - [String] portfolioId (Required).
-  // * +walletId+ - [String] walletId (The wallet ID) (Required)
+  // * +wallet_id+ - [String] walletId (The wallet ID) (Required)
   // * +types+ - [Array] types (The transaction types by which to filter the response)
   //       TRANSACTION_TYPE_UNKNOWN: An unknown transaction type
   //       DEPOSIT: A fiat or crypto deposit
@@ -108,7 +153,7 @@ export class Transactions extends Client {
   // * +sort_direction+ - [String] sort_direction (Page sorting direction)
   // ==== Returns
   // * [Hash] list of transactions
-  async listWallet<ResponseFormat>(walletId: string, params: object = {}) {
+  async listWallet<ResponseFormat>(walletId: string, params: listWalletParams = {}) {
     const operationalUrl =  `${this.portfolioUri()}/wallets/${walletId}/transactions`;
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
@@ -121,14 +166,14 @@ export class Transactions extends Client {
   // ==== options
   //
   // * +portfolio_id+ - [String] portfolioId (Required).
-  // * +walletId+ - [String]  walletId (The wallet ID) (Required)
+  // * +wallet_id+ - [String]  walletId (The wallet ID) (Required)
   // * +amount+ - [String] amount (The amount in whole units to send) (Required)
   // * +destination+ - [String] destination (The UUID of the destination wallet) (Required)
   // * +idempotency_key+ - [String] idempotency_key (The idempotency key associated with this transfer) (Required)
   // * +currency_symbol+ - [String] (The currency symbol to transfer) (Required)
   // ==== Returns
   // * [Hash] transfers
-  async createWalletTransfer<ResponseFormat>(walletId: string, params: object = {}) {
+  async createWalletTransfer<ResponseFormat>(walletId: string, params: createWalletTransferParams) {
     const operationalUrl = `${this.portfolioUri()}/wallets/${walletId}/transfers`
     const res = await this.post(operationalUrl, params);
     return formatResponse(res);
@@ -153,7 +198,7 @@ export class Transactions extends Client {
   //       account_identifier: String
   // ==== Returns
   // * [Hash] withdrawal
-  async createWalletWithdrawal<ResponseFormat>(walletId: string, params: object = {}) {
+  async createWalletWithdrawal<ResponseFormat>(walletId: string, params: createWalletWithdrawalParams) {
     const operationalUrl = `${this.portfolioUri()}/wallets/${walletId}/withdrawals`
     const res = await this.post(operationalUrl, params);
     return formatResponse(res);
