@@ -56,8 +56,8 @@ export class Client {
   // Get request
   async get(path: string, params: object = {}) {
     const headers = this.requestParams(requestMethod.GET, path);
-
     const queryParams: (string | object) = buildQueryParams(params)
+    
     if (!_.isEmpty(queryParams)) {
       path += queryParams;
     }
