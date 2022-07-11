@@ -24,7 +24,7 @@ const SingleTransaction = {
   destination_symbol: ''
 }
 
-const MockedSuccessResponse = {
+const MockedListSuccessResponse = {
   status: 200,
   data: {
     pagination: {
@@ -39,14 +39,124 @@ const MockedSuccessResponse = {
   headers: {}
 }
 
+const MockedTransactionSuccessResponse = {
+  status: 200,
+  data: {
+    transaction: SingleTransaction
+  },
+  headers: {}
+}
+
+const createWalletTransferSuccessResponse = {
+  status: 200,
+  headers: {},
+  data: {
+    transfer: {
+      activity_id: "string",
+      approval_url: "string",
+      symbol: "string",
+      amount: "string",
+      fee: "string",
+      destination_address: "string",
+      destination_type: "string",
+      source_address: "string",
+      source_type: "string"
+    }
+  }
+}
+
+const createWalletWithdrawalSuccessResponse = {
+  status: 200,
+  headers: {},
+  data: {
+    withdrawal: {
+      activity_id: "string",
+      approval_url: "string",
+      symbol: "string",
+      amount: "string",
+      fee: "string",
+      destination_type: "string",
+      source_type: "string",
+      blockchain_destination: {
+        address: "string",
+        account_identifier: "string"
+      },
+      blockchain_source: {
+        address: "string",
+        account_identifier: "string"
+      }
+    }
+  }
+}
+
 describe('Test Transactions Methods', () => {
-  it('should return valid Response', async () => {
+  it('List method should return valid Response', async () => {
     const mockedAxios = axios as jest.Mocked<typeof axios>;
-    mockedAxios.get.mockResolvedValue(MockedSuccessResponse);
+    mockedAxios.get.mockResolvedValue(MockedListSuccessResponse);
     
     let resp = await new Transactions().list();
     expect(resp.status).toBe(200);
     expect(resp.result.transactions.length).toBe(1);
     expect(resp.result.transactions[0]).toBe(SingleTransaction);
+  })
+
+  it('Transaction method should return valid Response', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue(MockedTransactionSuccessResponse);
+    
+    let resp = await new Transactions().transaction('3872432e-0e0d-4203-908c-99435290b88f');
+    expect(resp.status).toBe(200);
+    expect(resp.result.transaction).toBeDefined();
+    expect(resp.result.transaction).toBe(SingleTransaction);
+  })
+
+  it('listWallet method should return valid Response', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.get.mockResolvedValue(MockedListSuccessResponse);
+    
+    let resp = await new Transactions().listWallet('bcf7697c-fb36-4c8b-849b-fd24eff7b14b');
+    expect(resp.status).toBe(200);
+    expect(resp.result.transactions.length).toBe(1);
+    expect(resp.result.transactions[0]).toBe(SingleTransaction);
+  })
+
+
+  it('createWalletTransfer method should return valid Response', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.post.mockResolvedValue(createWalletTransferSuccessResponse);
+    
+    let resp = await new Transactions().createWalletTransfer(
+      'bcf7697c-fb36-4c8b-849b-fd24eff7b14b', 
+      {
+        portfolio_id: "string",
+        wallet_id: "string",
+        amount: "string",
+        destination: "string",
+        idempotency_key: "string",
+        currency_symbol: "string"
+      }
+    );
+    expect(resp.status).toBe(200);
+    expect(resp.result.transfer).toBeDefined();
+    expect(resp.result.transfer).toBe(createWalletTransferSuccessResponse);
+  })
+
+  it('createWalletWithdrawal method should return valid Response', async () => {
+    const mockedAxios = axios as jest.Mocked<typeof axios>;
+    mockedAxios.post.mockResolvedValue(createWalletWithdrawalSuccessResponse);
+    
+    let resp = await new Transactions().createWalletWithdrawal(
+      'bcf7697c-fb36-4c8b-849b-fd24eff7b14b', 
+      {
+        portfolio_id: "string",
+        walletId: "string",
+        amount: "string",
+        idempotency_key: "string",
+        currency_symbol: "string",
+      }
+    );
+    expect(resp.status).toBe(200);
+    expect(resp.result.withdrawal.length).toBeDefined();
+    expect(resp.result.withdrawal[0]).toBe(createWalletWithdrawalSuccessResponse);
   })
 });
