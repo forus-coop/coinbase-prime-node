@@ -1,5 +1,4 @@
 import { Assets } from "../../src/lib/assets";
-import { ResponseFormat } from "../../src/lib/util";
 import axios from 'axios';
 jest.mock('axios');
 
