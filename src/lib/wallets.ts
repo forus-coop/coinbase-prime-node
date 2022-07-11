@@ -1,6 +1,27 @@
 import { Client } from "./client";
 import { formatResponse, ResponseFormat } from "./util";
 
+type listParams = {
+  portfolio_id?: string,
+  type?: string,
+  cursor?: string,
+  limit?: number,
+  sort_direction?: string,
+  symbols?: string[],
+}
+
+type createParams = {
+  name?: string,
+  symbol?: string,
+  wallet_type?: string,
+}
+
+type depositInstructionsParams = {
+  portfolio_id?: string,
+  wallet_id?: string,
+  deposit_type?: string
+}
+
 export class Wallets extends Client {
 
   // List all wallets associated with a given portfolio
@@ -18,13 +39,26 @@ export class Wallets extends Client {
   // * +symbols+        - [Array] The wallet symbol.
   // ==== Returns
   // * [Hash] a hash with list of wallets along with pagination
-  async list<ResponseFormat>(params = {}) {
+  async list<ResponseFormat>(params: listParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/wallets`, params)
     );
   }
 
-  async create<ResponseFormat>(params = {}) {
+  // Create wallet
+  // ==== Path Params
+  // * +portfolio_id+ - [String] ID of portfolio
+  // ==== wallet_details
+  //
+  // * +name+         - [String] Wallet name
+  // * +symbol+       - [String] Wallet Symbol
+  // * +wallet_type+  - [String] The wallet type
+  //                    VAULT: A crypto vault
+  //                    TRADING: A trading wallet
+  // ==== Returns
+  // * [Hash] a hash with created wallet details
+
+  async create<ResponseFormat>(params: createParams = {}) {
     return formatResponse(
       await this.post(`${this.portfolioUri()}/wallets`, params)
     );
@@ -36,9 +70,9 @@ export class Wallets extends Client {
   // * +wallet_id+    - [String] ID of wallet
   // ==== Returns
   // * [Hash] a hash of wallet details
-  async fetch<ResponseFormat>(walletId:string ,params = {}) {
+  async fetch<ResponseFormat>(walletId: string) {
     return formatResponse(
-      await this.get(`${this.portfolioUri()}/wallets/${walletId}`, params)
+      await this.get(`${this.portfolioUri()}/wallets/${walletId}`)
     );
   }
 
@@ -56,7 +90,7 @@ export class Wallets extends Client {
   //                    SWIFT: A SWIFT deposit
   // ==== Returns
   // * [Hash] a hash of deposite instructions
-  async depositInstructions<ResponseFormat>(walletId: string, params = {}) {
+  async depositInstructions<ResponseFormat>(walletId: string, params: depositInstructionsParams = {}) {
     return formatResponse(
       await this.get(
         `${this.portfolioUri()}/wallets/${walletId}/deposit_instructions`, params
