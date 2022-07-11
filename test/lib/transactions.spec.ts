@@ -138,7 +138,7 @@ describe('Test Transactions Methods', () => {
     );
     expect(resp.status).toBe(200);
     expect(resp.result.transfer).toBeDefined();
-    expect(resp.result.transfer).toBe(createWalletTransferSuccessResponse);
+    expect(resp.result.transfer).toBe(createWalletTransferSuccessResponse.data.transfer);
   })
 
   it('createWalletWithdrawal method should return valid Response', async () => {
@@ -156,7 +156,7 @@ describe('Test Transactions Methods', () => {
       }
     );
     expect(resp.status).toBe(200);
-    expect(resp.result.withdrawal.length).toBeDefined();
-    expect(resp.result.withdrawal[0]).toBe(createWalletWithdrawalSuccessResponse);
+    expect(resp.result.withdrawal).toBeDefined();
+    expect(resp.result.withdrawal).toBe(createWalletWithdrawalSuccessResponse.data.withdrawal);
   })
 });
