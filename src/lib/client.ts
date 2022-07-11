@@ -20,7 +20,7 @@ export class Client {
   // Generate signature
   signature(method: requestMethod, timestamp: number, requestPath = '', body?: any) {
     if (!_.isUndefined(body)){
-      body = body.to_json();
+      body = JSON.stringify(body);
     } else {
       body = '';
     }
@@ -48,7 +48,7 @@ export class Client {
     const requestHeaders = this.headers(method, path, body)
     const params = { headers: requestHeaders }
     if (!_.isUndefined(body)) {
-      _.merge(params, { body: body.to_json() })
+      _.merge(params, { body: JSON.stringify(body) })
     }
     return params;
   }
