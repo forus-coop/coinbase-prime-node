@@ -1,6 +1,18 @@
 import { Client } from "./client";
 import { formatResponse, ResponseFormat } from "./util";
 
+type listParams = {
+  currency_symbol?: string,
+  symbols?: string[],
+  categories?: string[],
+  statuses?: string[],
+  start_time?: string,
+  end_time?: string,
+  cursor?: string,
+  limit?: number,
+  sort_direction?: string,
+}
+
 export class Activities extends Client {
 
   // Gets a list of address book Activities.
@@ -17,7 +29,7 @@ export class Activities extends Client {
   // * +sort_direction+ - [String] Sorting order (optional)
   // ==== Returns
   // * [Hash] a hash with list of Activities
-  async list<ResponseFormat>(params = {}) {
+  async list<ResponseFormat>(params: listParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/activities`, params)
     );

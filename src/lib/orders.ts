@@ -41,7 +41,7 @@ type listParams = {
   product_ids?: string[],
   order_type?: string,
   cursor?: string,
-  limit?: string,
+  limit?: number,
   sort_direction?: string,
   order_side?: string,
 }
@@ -49,7 +49,7 @@ type listParams = {
 type fillsParams = {
   order_id?: string,
   cursor?: string,
-  limit?: string,
+  limit?: number,
   sort_direction?: string,
 }
 
