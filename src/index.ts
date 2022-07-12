@@ -1,9 +1,6 @@
 // Coinbase base modules
-import { Addresses } from './lib/addresses';
+export { Addresses } from './lib/addresses';
+export { Activities } from './lib/activities';
+export { Orders } from './lib/orders';
+export { Wallets } from './lib/wallets';
 
-export default async function test() {
-  const res = await new Addresses().list();
-  console.log(res)
-}
-
-test();
