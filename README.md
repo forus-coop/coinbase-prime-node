@@ -33,7 +33,7 @@ Wallets
 ```
 ### Example To fetch all the orders. 
 ```js
-import { Orders } from 'coinbase-prime-node'
+const { Orders } =  require('@forus-coop/coinbase-prime-node')
 
 const orders = new Orders.list();
 console.log(orders)
