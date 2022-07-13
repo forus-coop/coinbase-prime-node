@@ -1,7 +1,7 @@
 import { Client } from "./client";
 import { formatResponse, ResponseFormat } from "./util";
 
-type listParams = {
+type ListParams = {
   portfolio_id?: string,
   type?: string,
   cursor?: string,
@@ -10,13 +10,13 @@ type listParams = {
   symbols?: string[],
 }
 
-type createParams = {
+type CreateParams = {
   name?: string,
   symbol?: string,
   wallet_type?: string,
 }
 
-type depositInstructionsParams = {
+type DepositInstructionsParams = {
   portfolio_id?: string,
   wallet_id?: string,
   deposit_type?: string
@@ -39,7 +39,7 @@ export class Wallets extends Client {
   // * +symbols+        - [Array] The wallet symbol.
   // ==== Returns
   // * [Hash] a hash with list of wallets along with pagination
-  async list<ResponseFormat>(params: listParams = {}) {
+  async list<ResponseFormat>(params: ListParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/wallets`, params)
     );
@@ -58,7 +58,7 @@ export class Wallets extends Client {
   // ==== Returns
   // * [Hash] a hash with created wallet details
 
-  async create<ResponseFormat>(params: createParams = {}) {
+  async create<ResponseFormat>(params: CreateParams = {}) {
     return formatResponse(
       await this.post(`${this.portfolioUri()}/wallets`, params)
     );
@@ -90,7 +90,7 @@ export class Wallets extends Client {
   //                    SWIFT: A SWIFT deposit
   // ==== Returns
   // * [Hash] a hash of deposite instructions
-  async depositInstructions<ResponseFormat>(walletId: string, params: depositInstructionsParams = {}) {
+  async depositInstructions<ResponseFormat>(walletId: string, params: DepositInstructionsParams = {}) {
     return formatResponse(
       await this.get(
         `${this.portfolioUri()}/wallets/${walletId}/deposit_instructions`, params

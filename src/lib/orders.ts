@@ -1,11 +1,11 @@
 import { Client } from './client';
 import { formatResponse, ResponseFormat } from './util';
 
-type openOrdersParams = {
+type OpenOrdersParams = {
   product_ids?: string,
 }
 
-type createParams = {
+type CreateParams = {
   portfolio_id?: string
   product_id?: string,
   client_order_id?: string,
@@ -21,7 +21,7 @@ type createParams = {
   stp_id?: string,
 }
 
-type previewParams = {
+type PreviewParams = {
   portfolio_id?: string
   product_id?: string,
   client_order_id?: string,
@@ -34,7 +34,7 @@ type previewParams = {
   time_in_force?: string,
 }
 
-type listParams = {
+type ListParams = {
   start_date?: string,
   end_date?: string,
   order_statuses?: string[],
@@ -46,7 +46,7 @@ type listParams = {
   order_side?: string,
 }
 
-type fillsParams = {
+type FillsParams = {
   order_id?: string,
   cursor?: string,
   limit?: number,
@@ -61,7 +61,7 @@ export class Orders extends Client {
   //                     BTC-USD: Only support BTC_USD
   // ==== Returns
   // * [Hash] a hash with list of open orders along with pagination
-  async openOrders<ResponseFormat>(params: openOrdersParams = {}) {
+  async openOrders<ResponseFormat>(params: OpenOrdersParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/open_orders`, params),
     );
@@ -93,7 +93,7 @@ export class Orders extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with list of open orders along with pagination
-  async create<ResponseFormat>(params: createParams = {}) {
+  async create<ResponseFormat>(params: CreateParams = {}) {
     return formatResponse(
       await this.post(`${this.portfolioUri()}/order`, params),
     );
@@ -123,7 +123,7 @@ export class Orders extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with status code and order details.
-  async preview<ResponseFormat>(params: previewParams = {}) {
+  async preview<ResponseFormat>(params: PreviewParams = {}) {
     return formatResponse(
       await this.post(`${this.portfolioUri()}/order_preview`, params),
     );
@@ -157,7 +157,7 @@ export class Orders extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with status code and orders.
-  async list<ResponseFormat>(params: listParams = {}) {
+  async list<ResponseFormat>(params: ListParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/orders`, params),
     );
@@ -201,7 +201,7 @@ export class Orders extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with status code and fills.
-  async fills<ResponseFormat>(orderId: string, params: fillsParams = {}) {
+  async fills<ResponseFormat>(orderId: string, params: FillsParams = {}) {
     return formatResponse(
       await this.get(`${this.portfolioUri()}/orders/${orderId}/fills`, params),
     );
