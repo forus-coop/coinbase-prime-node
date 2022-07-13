@@ -33,9 +33,9 @@ Wallets
 ```
 ### Example To fetch all the orders. 
 ```js
-import ( Addresses ) from 'coinbase-prime'
+import { Orders } from 'coinbase-prime-node'
 
-const orders = CoinbasePrime::Orders.new().list();
+const orders = new Orders.list();
 console.log(orders)
 ```
 
