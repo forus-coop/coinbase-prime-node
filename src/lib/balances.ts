@@ -2,7 +2,7 @@
 import { formatResponse, ResponseFormat } from "./util";
 import { Client } from './client';
 
-type portfolioParams = { balance_type?: string, symbol?: string }
+type PortfolioParams = { balance_type?: string, symbol?: string }
 export class Balances extends Client {
 
   // Get balance for a specific wallet
@@ -29,7 +29,7 @@ export class Balances extends Client {
   //                     the response
   // ==== Returns
   // @return [Hash] a hash with balances
-  async portfolio<ResponseFormat>(params: portfolioParams = {}) {
+  async portfolio<ResponseFormat>(params: PortfolioParams = {}) {
     const operationalUrl = `${this.portfolioUri()}/balances`
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);

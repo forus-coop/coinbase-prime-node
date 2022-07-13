@@ -2,7 +2,7 @@
 import { formatResponse, ResponseFormat } from "./util";
 import { Client } from './client';
 
-type listParams = { cursor?: string, limit?: number, sort_direction?: string }
+type ListParams = { cursor?: string, limit?: number, sort_direction?: string }
 export class Products extends Client {
 
   // List tradable products for a given portfolio
@@ -16,7 +16,7 @@ export class Products extends Client {
   // * +sort_direction+ - [String] Sorting order (DESC, ASC)
   // ==== Returns
   // * [Hash] a hash with list of products along with pagination
-  async list<ResponseFormat>(params: listParams = {}) {
+  async list<ResponseFormat>(params: ListParams = {}) {
     const operationalUrl = `${this.portfolioUri()}/products`
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
