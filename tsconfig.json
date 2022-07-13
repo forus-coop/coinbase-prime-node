@@ -5,9 +5,7 @@
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
-    "types": [
-      "node",
-      "jest"
-    ]
-  }
+    "types": ["node", "jest"]
+  },
+  "include": ["dotenv.js"]
 }
