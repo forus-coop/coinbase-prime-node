@@ -1,9 +1,4 @@
 // Coinbase base modules
+import { Addresses } from './lib/addresses';
 import { Assets } from './lib/assets';
 
-export default async function test() {
-  const res = await new Assets().list();
-  console.log(res)
-}
-
-test();
