@@ -1,4 +1,7 @@
 // Coinbase base modules
-import { Addresses } from './lib/addresses';
-import { Assets } from './lib/assets';
+export { Addresses } from './lib/addresses';
+export { Balances } from './lib/balances';
+export { Products } from './lib/products';
+export { Assets } from './lib/assets';
+export { Transactions } from './lib/transactions';
 
