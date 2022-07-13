@@ -4,8 +4,7 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",
-    "strict": true,
-    "types": ["node", "jest"]
+    "strict": true
   },
-  "include": ["dotenv.js"]
+  "exclude": ["node_modules", "dist"]
 }

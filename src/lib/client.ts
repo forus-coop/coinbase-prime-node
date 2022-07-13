@@ -1,6 +1,8 @@
 // Base class to connect to coinbase
 import * as _ from "lodash";
-import "../../dotenv";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
+
 import { buildQueryParams } from "./util";
 import * as CryptoJS from "crypto-js";
 import axios from "axios";
