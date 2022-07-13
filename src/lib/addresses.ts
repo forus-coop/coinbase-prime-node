@@ -2,7 +2,7 @@
 import { formatResponse, ResponseFormat } from "./util";
 import { Client } from './client';
 
-type listParams = {
+type ListParams = {
   currency_symbol?: string,
   search?: string,
   cursor?: string,
@@ -10,7 +10,7 @@ type listParams = {
   sort_direction?: string
 }
 
-type createParams = {
+type CreateParams = {
   address: string,
   currency_symbol: string,
   name: string,
@@ -30,7 +30,7 @@ export class Addresses extends Client {
   // 
   // ==== Returns
   // * [Hash] a hash with list of addresses
-  async list<ResponseFormat>(params: listParams = {}) {
+  async list<ResponseFormat>(params: ListParams = {}) {
     const operationalUrl = `${this.portfolioUri()}/address_book`
     const res = await this.get(operationalUrl, params);
     return formatResponse(res);
@@ -46,7 +46,7 @@ export class Addresses extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with list of addresses along with pagination
-  async create<ResponseFormat>(params: createParams) {
+  async create<ResponseFormat>(params: CreateParams) {
     const operationalUrl = `${this.portfolioUri()}/address_book`
     const res = await this.post(operationalUrl, params);
     return formatResponse(res);
