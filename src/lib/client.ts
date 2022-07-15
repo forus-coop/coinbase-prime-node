@@ -76,10 +76,11 @@ export class Client {
 
   // Post request
   async post(path: string, body?: any) {
-    const headers = this.requestParams(requestMethod.POST, path);
     const params = this.requestParams(requestMethod.POST, path, body);
 
-    return await axios.post(BASE_URL + path, params, headers);
+    return await axios.post(BASE_URL + path, params.body, {
+      headers: params.headers,
+    });
   }
 
   // Generate portfolio url using portfolio ID
