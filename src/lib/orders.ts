@@ -1,57 +1,58 @@
-import { Client } from './client';
-import { formatResponse, ResponseFormat } from './util';
+import { Client } from "./client";
+import { formatResponse, ResponseFormat } from "./util";
 
 type OpenOrdersParams = {
-  product_ids?: string,
-}
+  product_ids?: string;
+};
 
 type CreateParams = {
-  portfolio_id?: string
-  product_id?: string,
-  client_order_id?: string,
-  type?: string,
-  base_quantity?: string,
-  quote_value?: string,
-  limit_price?: string,
-  start_time?: string,
-  expiry_time?: string,
-  time_in_force?: string,
-  display_quote_size?: string,
-  display_base_size?: string,
-  stp_id?: string,
-}
+  portfolio_id: string;
+  product_id: string;
+  side: string;
+  client_order_id: string;
+  type: string;
+  base_quantity?: string;
+  quote_value?: string;
+  limit_price?: string;
+  start_time?: string;
+  expiry_time?: string;
+  time_in_force?: string;
+  display_quote_size?: string;
+  display_base_size?: string;
+  stp_id?: string;
+};
 
 type PreviewParams = {
-  portfolio_id?: string
-  product_id?: string,
-  client_order_id?: string,
-  type?: string,
-  base_quantity?: string,
-  quote_value?: string,
-  limit_price?: string
-  start_time?: string,
-  expiry_time?: string,
-  time_in_force?: string,
-}
+  portfolio_id?: string;
+  product_id?: string;
+  client_order_id?: string;
+  type?: string;
+  base_quantity?: string;
+  quote_value?: string;
+  limit_price?: string;
+  start_time?: string;
+  expiry_time?: string;
+  time_in_force?: string;
+};
 
 type ListParams = {
-  start_date?: string,
-  end_date?: string,
-  order_statuses?: string[],
-  product_ids?: string[],
-  order_type?: string,
-  cursor?: string,
-  limit?: number,
-  sort_direction?: string,
-  order_side?: string,
-}
+  start_date?: string;
+  end_date?: string;
+  order_statuses?: string[];
+  product_ids?: string[];
+  order_type?: string;
+  cursor?: string;
+  limit?: number;
+  sort_direction?: string;
+  order_side?: string;
+};
 
 type FillsParams = {
-  order_id?: string,
-  cursor?: string,
-  limit?: number,
-  sort_direction?: string,
-}
+  order_id?: string;
+  cursor?: string;
+  limit?: number;
+  sort_direction?: string;
+};
 
 export class Orders extends Client {
   // Get a list of open orders associated with the portfolios.
@@ -63,7 +64,7 @@ export class Orders extends Client {
   // * [Hash] a hash with list of open orders along with pagination
   async openOrders<ResponseFormat>(params: OpenOrdersParams = {}) {
     return formatResponse(
-      await this.get(`${this.portfolioUri()}/open_orders`, params),
+      await this.get(`${this.portfolioUri()}/open_orders`, params)
     );
   }
 
@@ -93,9 +94,9 @@ export class Orders extends Client {
   //
   // ==== Returns
   // * [Hash] a hash with list of open orders along with pagination
-  async create<ResponseFormat>(params: CreateParams = {}) {
+  async create<ResponseFormat>(params: CreateParams) {
     return formatResponse(
-      await this.post(`${this.portfolioUri()}/order`, params),
+      await this.post(`${this.portfolioUri()}/order`, params)
     );
   }
 
@@ -125,7 +126,7 @@ export class Orders extends Client {
   // * [Hash] a hash with status code and order details.
   async preview<ResponseFormat>(params: PreviewParams = {}) {
     return formatResponse(
-      await this.post(`${this.portfolioUri()}/order_preview`, params),
+      await this.post(`${this.portfolioUri()}/order_preview`, params)
     );
   }
 
@@ -159,7 +160,7 @@ export class Orders extends Client {
   // * [Hash] a hash with status code and orders.
   async list<ResponseFormat>(params: ListParams = {}) {
     return formatResponse(
-      await this.get(`${this.portfolioUri()}/orders`, params),
+      await this.get(`${this.portfolioUri()}/orders`, params)
     );
   }
 
@@ -172,7 +173,7 @@ export class Orders extends Client {
   // * [Hash] a hash with status code and order
   async fetch<ResponseFormat>(orderId: string) {
     return formatResponse(
-      await this.get(`${this.portfolioUri()}/orders/${orderId}`),
+      await this.get(`${this.portfolioUri()}/orders/${orderId}`)
     );
   }
 
@@ -185,7 +186,7 @@ export class Orders extends Client {
   // * [Hash] a hash with status code and order id
   async cancel<ResponseFormat>(orderId: string) {
     return formatResponse(
-      await this.post(`${this.portfolioUri()}/orders/${orderId}/cancel`),
+      await this.post(`${this.portfolioUri()}/orders/${orderId}/cancel`)
     );
   }
 
@@ -203,7 +204,7 @@ export class Orders extends Client {
   // * [Hash] a hash with status code and fills.
   async fills<ResponseFormat>(orderId: string, params: FillsParams = {}) {
     return formatResponse(
-      await this.get(`${this.portfolioUri()}/orders/${orderId}/fills`, params),
+      await this.get(`${this.portfolioUri()}/orders/${orderId}/fills`, params)
     );
   }
 }
